@@ -84,3 +84,6 @@ async def uploadtos3(data_file: UploadFile):
         raise HTTPException(status_code=500, detail="Error during file upload")
 
     return JSONResponse(content=response)
+
+#Once completed use the command below to run the file
+#uvicorn Begin.CH_3a_Challenge:app --reload
