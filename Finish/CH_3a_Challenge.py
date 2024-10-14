@@ -5,6 +5,7 @@ from datetime import datetime
 import boto3
 import awswrangler as wr
 from pymongo import MongoClient
+import pymongo
 
 # Initialize FastAPI app
 app = FastAPI()
@@ -16,7 +17,13 @@ aws_s3 = boto3.Session(
     region_name=""
 )
 
-# MongoDB client setup (replace with your MongoDB URI)
+# install mongo db in codespace using below commands
+# sudo apt-get update
+# sudo apt-get install -y mongodb
+
+# start the Database
+# sudo service mongodb start
+
 client = MongoClient("mongodb://localhost:27017/")
 db = client["local"]
 
@@ -25,9 +32,22 @@ S3_BUCKET = ""
 S3_PATH = ""
 
 @app.post("/uploadFile")
-async def upload_to_s3(data_file: UploadFile):
+async def uploadtos3(data_file: UploadFile):
     """
     Uploads a file to Amazon S3 storage and stores metadata in MongoDB.
+
+    This route allows users to upload a file, which is saved temporarily, uploaded to Amazon S3,
+    and then removed from the local file system. It returns the filename and S3 file path
+    in the response JSON, while storing file metadata in MongoDB.
+
+    Args:
+        data_file (UploadFile): The file to be uploaded.
+
+    Returns:
+        JSONResponse: A JSON response containing the filename, file size, upload time, and S3 file path.
+
+    Raises:
+        HTTPException: If the file specified in `data_file` is not found (HTTP status code 404).
     """
     try:
         file_name = data_file.filename.split("/")[-1]
@@ -63,6 +83,7 @@ async def upload_to_s3(data_file: UploadFile):
 
         # Insert file metadata into MongoDB
         result = db["file_metadata"].insert_one(metadata)
+        
 
         # Return response
         response = {
@@ -72,12 +93,12 @@ async def upload_to_s3(data_file: UploadFile):
             "file_path": f"s3://{S3_BUCKET}/{S3_PATH}{file_name}",
             "mongo_insert_status": result.acknowledged,
         }
-        print(response)
 
     except FileNotFoundError:
         raise HTTPException(status_code=404, detail="File not found")
     
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error during file upload: {e}")
+        print(f"Error during file upload: {e}")
+        raise HTTPException(status_code=500, detail="Error during file upload")
 
     return JSONResponse(content=response)
