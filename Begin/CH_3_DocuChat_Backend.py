@@ -60,7 +60,7 @@ S3_PATH=""
 
 
 try:
-    MONGO_URL="mongodb+srv://admin:admin@cluster0.jyupp.mongodb.net/?retryWrites=true&w=majority&ssl=true"
+    MONGO_URL="Add your credentials"
 
     # Connect to the MongoDB using the provided MONGO_URL
     client = pymongo.MongoClient(MONGO_URL, uuidRepresentation="standard")
