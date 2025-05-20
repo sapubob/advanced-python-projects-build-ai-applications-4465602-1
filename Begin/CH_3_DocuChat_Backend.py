@@ -43,10 +43,10 @@ if os.name == "nt":  # Windows
 # MONGO_URL = os.environ.get("MONGO_URL")  # MongoDB connection URL
 
 # Retrieve and assign environment variables to variables
-# OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")  
-# OpenAI API key
 # os.environ['OPENAI_API_KEY']="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"
-os.environ['OPENAI_API_KEY']="your OpenAI key"
+os.environ['OPENAI_API_KEY']=""
+# OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")  
+OPENAI_API_KEY=""
 # S3_KEY = os.environ.get("S3_KEY")  # AWS S3 access key
 S3_KEY=""
 # S3_SECRET = os.environ.get("S3_SECRET")  # AWS S3 secret access key
