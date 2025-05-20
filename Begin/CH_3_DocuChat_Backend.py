@@ -40,7 +40,6 @@ if os.name == "nt":  # Windows
     # Load environment variables from a `.secrets.env` file (used for local development)
     load_dotenv(".secrets.env")
 
-# MONGO_URL = os.environ.get("MONGO_URL")  # MongoDB connection URL
 
 # Retrieve and assign environment variables to variables
 # os.environ['OPENAI_API_KEY']="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"
@@ -60,7 +59,9 @@ S3_PATH=""
 
 
 try:
-    MONGO_URL="Add your credentials"
+    # MongoDB connection URL   
+    # MONGO_URL = os.environ.get("MONGO_URL")  
+    MONGO_URL=""
 
     # Connect to the MongoDB using the provided MONGO_URL
     client = pymongo.MongoClient(MONGO_URL, uuidRepresentation="standard")
@@ -80,12 +81,7 @@ except:
     # Print information about the exception type, filename, and line number
     print(exc_type, fname, exc_tb.tb_lineno)
 
-
-
-
-
 # Import the necessary modules and libraries
-
 
 class ChatMessageSent(BaseModel):
     session_id: str = None
