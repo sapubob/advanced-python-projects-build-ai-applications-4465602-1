@@ -139,7 +139,7 @@ def get_response(
     # 1. load data
     data = loader.load()
     
- # 2. split data so it can fit GPT token limit
+    # 2. split data so it can fit GPT token limit
     print("splitting ..")
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=1000, chunk_overlap=0, separators=["\n", " ", ""]
