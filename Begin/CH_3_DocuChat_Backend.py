@@ -1,3 +1,4 @@
+# Import pydantic for defining data models and pymongo for mongoDB
 from pydantic import BaseModel
 import pymongo
 # Import traceback for error handling
@@ -5,57 +6,56 @@ import traceback
 
 # Import os and sys for system-related operations
 import os, sys
-import traceback  # Import traceback for error handling
+ # Import traceback for error handling
+import traceback 
+# Import FastAPI components for building the web application 
 from fastapi import (
     FastAPI,
     UploadFile,
     status,
     HTTPException,
-)  # Import FastAPI components for building the web application
+)
 from fastapi.responses import JSONResponse  # Import JSONResponse for returning JSON responses
 from fastapi.middleware.cors import CORSMiddleware  # Import CORS middleware to handle Cross-Origin Resource Sharing
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
+
 # from langchain_community.document_loaders import S3FileLoader
 from langchain_community.document_loaders import Docx2txtLoader,PyPDFLoader
-
-
 from langchain_community.callbacks import get_openai_callback
 from langchain.chains import ConversationalRetrievalChain
-
 from langchain_openai import ChatOpenAI
-import gc
 
+import gc
 import urllib.parse
 import awswrangler as wr  # Import AWS Wrangler for working with AWS services
-
 import boto3  # Import the boto3 library for interacting with AWS services
 
 # Import the OS module for system-related operations
-
 # Check if the operating system is Windows
 if os.name == "nt":  # Windows
     # If it's Windows, import the `load_dotenv` function from the `dotenv` library
     from dotenv import load_dotenv
-
     # Load environment variables from a `.secrets.env` file (used for local development)
     load_dotenv(".secrets.env")
 
-# Retrieve and assign environment variables to variables
-# S3_KEY = os.environ.get("S3_KEY")  # AWS S3 access key
-# S3_SECRET = os.environ.get("S3_SECRET")  # AWS S3 secret access key
-# S3_BUCKET = os.environ.get("S3_BUCKET")  # AWS S3 bucket name
-# S3_REGION = os.environ.get("S3_REGION")  # AWS S3 region
-# OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")  # OpenAI API key
 # MONGO_URL = os.environ.get("MONGO_URL")  # MongoDB connection URL
-# S3_PATH = os.environ.get("S3_PATH")  # AWS S3 pathi
 
-os.environ['OPENAI_API_KEY']="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"
+# Retrieve and assign environment variables to variables
+# OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")  
+# OpenAI API key
+# os.environ['OPENAI_API_KEY']="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"
+os.environ['OPENAI_API_KEY']="your OpenAI key"
+# S3_KEY = os.environ.get("S3_KEY")  # AWS S3 access key
 S3_KEY=""
+# S3_SECRET = os.environ.get("S3_SECRET")  # AWS S3 secret access key
 S3_SECRET=""
+# S3_BUCKET = os.environ.get("S3_BUCKET")  # AWS S3 bucket name
 S3_BUCKET=""
+# S3_REGION = os.environ.get("S3_REGION")  # AWS S3 region
 S3_REGION=""
+# S3_PATH = os.environ.get("S3_PATH")  # AWS S3 pathi
 S3_PATH=""
 
 
