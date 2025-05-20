@@ -118,9 +118,8 @@ def get_response(
         This function relies on various components such as OpenAIEmbeddings, S3FileLoader,
         RecursiveCharacterTextSplitter, and ConversationalRetrievalChain. It prints
         information about token usage and cost during the model interaction.
-
-
     """
+ 
     embeddings = OpenAIEmbeddings()  # load embeddings
     # download file from s3
     wr.s3.download(path=f"s3://docchat/documents/{file_name}",local_file=file_name,boto3_session=aws_s3)
