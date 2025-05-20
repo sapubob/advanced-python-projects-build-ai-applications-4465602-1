@@ -124,13 +124,14 @@ def get_response(
     embeddings = OpenAIEmbeddings()  # load embeddings
     # download file from s3
     wr.s3.download(path=f"s3://docchat/documents/{file_name}",local_file=file_name,boto3_session=aws_s3)
-
+    
     # loader = S3FileLoader(
     #     bucket=S3_BUCKET,
     #     key=S3_PATH + file_name.split("/")[-1],
     #     aws_access_key_id=S3_KEY,
     #     aws_secret_access_key=S3_SECRET,
     # )
+ 
     if file_name.endswith(".docx"):
         loader=Docx2txtLoader(file_path=file_name.split("/")[-1])
     else:
@@ -138,15 +139,17 @@ def get_response(
 
     # 1. load data
     data = loader.load()
-    # 2. split data so it can fit GPT token limit
+    
+ # 2. split data so it can fit GPT token limit
     print("splitting ..")
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=1000, chunk_overlap=0, separators=["\n", " ", ""]
     )
-
     all_splits = text_splitter.split_documents(data)
+ 
     # 3. store data in vector db to conduct search
     vectorstore = FAISS.from_documents(all_splits, embeddings)
+ 
     # 4. init OpenAI
     llm = ChatOpenAI(model_name=model, temperature=temperature)
 
@@ -155,6 +158,7 @@ def get_response(
         llm,
         retriever=vectorstore.as_retriever(),
     )
+ 
     # use the function to determine tokens used
     with get_openai_callback() as cb:
         answer = qa_chain(
@@ -205,7 +209,6 @@ def load_memory_to_pass(session_id: str):
 def get_session() -> str:
     """
     Generate a new session ID.
-
     Returns:
         str: A newly generated session ID as a string.
     """
@@ -215,12 +218,11 @@ def get_session() -> str:
 def add_session_history(session_id: str, new_values: List):
     """
     Add conversation history to an existing session or create a new session.
-
     Args:
         session_id (str): The session ID to which the conversation history will be added.
         new_values (List): A list of conversation history to be added to the session.
-
     """
+ 
     document = conversationcol.find_one(
         {"session_id": session_id}
     )  # find the document with the session id
