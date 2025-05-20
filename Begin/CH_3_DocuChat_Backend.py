@@ -298,7 +298,10 @@ async def create_chat_message(
                 data_source=chats.data_source,
             )
             payload = payload.model_dump()
-
+    """ 
+    For a ChatMessage object, this means extracting the content and any associated metadata into a standard Python dictionary. 
+    This is useful for tasks like storing the message in a database, sending it over a network, or logging it.
+    """
             response = get_response(
                 file_name=payload.get("data_source"),
                 session_id=payload.get("session_id"),
