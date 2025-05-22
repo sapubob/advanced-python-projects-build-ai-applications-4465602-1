@@ -1,7 +1,7 @@
 import requests
 import json
 
-BACKEND_URL="https://psychic-adventure-p4w6pqpgxw9c6gp6-8000.app.github.dev"
+BACKEND_URL="https://psychic-adventure-p4w6pqpgxw9c6gp6-8000.app.github.dev"  # be sure no trailing /
 
 def chat(user_input, data, session_id=None):
     """
@@ -122,8 +122,7 @@ if data_file is not None:
     # Upload the file to a specified API endpoint
     s3_upload_url = upload_file(file_path=file_path)
     
-    s3_upload_url=s3_upload_url.split("/")[-1
-                                           ]
+    s3_upload_url=s3_upload_url.split("/")[-1]
 
     # Display chat messages from history on app rerun
     for message in st.session_state.messages:
